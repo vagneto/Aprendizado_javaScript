@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            background-image: url('https://img.youtube.com/vi/aQJ1SZOuYAs/maxresdefault.jpg');
+            background-size: cover;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <font size="6">Curso stepAbout TI</font></br></br>
+    <font size="3">Nome :</font></br>
+    <input type="text" id="nome">*</br>
+    <font size="3">HTML Básico :</font></br>
+    <input type="number" id="html">*</br>
+    <font size="3">CSS Básico :</font></br>
+    <input type="text" id="css">*</br>
+    <font size="3">javaScript Básico :</font></br>
+    <input type="text" id="js">*</br><br>
+    <button onclick="cadastrarAluno()">cadastrar Aluno</button></br><br>
+    <font size="3">Digite o nome para ser removido :</font></br>
+    <input type="text" id="removido"></br>
+    <button onclick="remover()">Remover</button></br></br> 
+    <div id="msg"></div>
+    <div id="menulista"></div>
+    <div id="lista"></div>
+    <script>
+
+        var cadastro = []
+
+        function listaCadastros(cadastro) {
+            listarAlunos(cadastro)
+        }
+
+        inicializarLista()
+
+        function getNome() {
+            let nome = document.getElementById("nome").value
+            return nome
+        }
+
+        function getHtml() {
+            let html = Number(document.getElementById("html").value)
+            return html
+        }
+
+        function getCss() {
+            let css = Number(document.getElementById("css").value)
+            return css
+        }
+
+        function getJavaScript() {
+            let java = Number(document.getElementById("js").value)
+            return java
+        }
+
+        function getAluno() {
+            let nome = getNome()
+            let html = getHtml()
+            let css = getCss()
+            let js = getJavaScript()
+            let aluno = []
+            aluno.push(nome)
+            aluno.push(html)
+            aluno.push(css)
+            aluno.push(js)
+            return aluno
+        }
+
+        function crticarCadastramento(a) {
+            preenchido = true
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] == "") {
+                    preenchido = false
+                    break
+                }
+            }
+            return preenchido
+        }
+
+        function apagarValores() {
+            document.getElementById("nome").value = ""
+            document.getElementById("html").value = ""
+            document.getElementById("css").value = ""
+            document.getElementById("js").value = ""
+        }
+
+        function escreveMsg(id, msg) {
+            document.getElementById(id).innerHTML = msg
+        }
+
+        function escreveLista(id, msg) {
+            document.getElementById(id).innerHTML += msg
+        }
+
+        function inicializarLista() {
+            cadastroCompleto = []
+        }
+
+        function verificarAluno(a) {
+            for (let i = 0; i < cadastroCompleto.length; i++) {
+                if (a[0] == cadastroCompleto[i][0])
+                    return true
+            }
+            return false
+        }
+
+        function verificarNoCadastro(p, a) {
+            if (p == true) {
+                if (verificarAluno(a) == true) {
+                    escreveMsg("msg", "ALUNO JÁ POSSUI CADASTRO.")
+                } else {
+                    inserirAluno(a)
+                    listaCadastros(cadastroCompleto)
+                }
+            } else {
+                escreveMsg("msg", "Preencha todos os campos!")
+            }
+        }
+
+        function inserirAluno(dadosDoAluno) {
+            cadastroCompleto.push(dadosDoAluno)
+        }
+
+        function listarAlunos(cadastro) {
+            // pegar um vetor e verificar se não está vazia
+            // senão estiver vazia, fazer um loop para percorrer cada indice
+            // ao pegar cada indice vou pegar cada nota e calcular a media
+            // se a media for maior ou igual a 7, exibir msg aprovado, senão reprovado
+            escreveMsg("lista", "")
+            if (cadastro.length == 0) escreveLista("lista", "Lista vazia !")
+            else {
+                for (let i = 0; i < cadastro.length; i++) {
+                    let media = (cadastro[i][1] + cadastro[i][2] + cadastro[i][3]) / 3; 
+                    if (media >= 7) {
+                        escreveLista("lista", "<tr><td>" + "==" + cadastro[i][0] + "==</br></br>" +
+                        "HTML Básico : " + cadastro[i][1] + "</br>" +
+                        "CSS Básico : " + cadastro[i][2] + "</br>" +
+                        "javaScript Básico : " + cadastro[i][3] + "</br></br>" +
+                        "ALUNO(A) APROVADO(A)!!! Sua média foi " + media.toFixed(2) + "</td></tr></br></br>")
+                    }
+                    else {
+                        escreveLista("lista", "<tr><td>" + "==" + cadastro[i][0] + "==</br></br>" +
+                        "HTML : " + cadastro[i][1] + "</br>" +
+                        "CSS : " + cadastro[i][2] + "</br>" +
+                        "javaScript : " + cadastro[i][3] + "</br></br>" +
+                        "ALUNO(A) REPROVADO(A) :-( Sua média foi " + media.toFixed(2) + "</td></tr></br></br>")
+                    }
+                }
+            }
+            apagarValores()
+        }
+        
+
+        function cadastrarAluno() {
+            let aluno = getAluno()
+            let preenchido = crticarCadastramento(aluno)
+            verificarNoCadastro(preenchido, aluno)
+            // verifica se as caixas estão preenchidas
+            // se tiver preenchido exibir mensagem de aprovação e média
+            // adiciono os dados no vetor
+            //  apagarValores()
+        }
+
+        // função para localizar o indice do nome, [0][i]
+        // guardar numa variável
+        // retornar essa função
+
+        // procurar pela posição com o nome digitado
+
+        function localizar() {
+            let aluno = getAluno()
+            let localizado = document.getElementById("removido").value
+            for (let i = 0; i < aluno.length; i++ ) {
+                if (localizado == aluno[i][0]) {
+                    return i
+                }
+            }
+            return -1
+        }
+        
+        // function localizar() {
+        //     let localizado = document.getElementById("removido").value
+        //     for (let i = 0; i <cadastroCompleto.length; i++ ) {
+        //         if (localizado == cadastroCompleto[0][i]) {
+        //             return i
+        //         }
+        //     }
+        //     return -1
+        // }
+
+        function remover() {
+            let aluno = getAluno()
+            let indice = localizar()
+            let auxiliar = []
+
+            for (let i = 0; i > aluno.length; i--) {
+                if (indice != i) {
+                    auxiliar.push(aluno[i])
+                }
+            }
+            atualizado = auxiliar
+            escreveMsg("msg", indice + " Excluído com sucesso")
+        }
+
+    </script>
+
+</body>
+
+</html>
